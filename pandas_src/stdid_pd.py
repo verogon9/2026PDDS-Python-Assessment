@@ -19,9 +19,10 @@ Create a DataFrame from the users and orders lists
 '''
 
 # DataFrame Creation of Users
+# Your Code Here -----------------------------------------------------------
 
-# Your Code Here
-users_df = None  # Replace this with your solution
+# Convert the lists into DataFrames
+users_df = pd.DataFrame(users)
 
 print("Users DataFrame:")
 print(users_df)
@@ -34,9 +35,8 @@ print(users_df)
 
 # =============================================
 # DataFrame Creation of Orders
-
-# Your Code Here
-orders_df = None  # Replace this with your solution
+# Your Code Here -----------------------------------------------------------
+orders_df = pd.DataFrame(orders)
 
 print("Orders DataFrame:")
 print(orders_df)
@@ -57,8 +57,14 @@ Merge the users_df and orders_df DataFrames based on user_id and id.
    orders_df["user_id"].
 '''
 
-# Your Code Here
-merged_df = None  # Replace this with your solution
+# Your Code Here -----------------------------------------------------------
+# Merge users and orders using their matching IDs
+merged_df = pd.merge(
+    users_df,
+    orders_df,
+    left_on="id",
+    right_on="user_id"
+)
 
 print("Merged DataFrame:")
 print(merged_df)
@@ -84,8 +90,18 @@ Declare a variable "grouped_sorted_df" to store the result, with "name" as
 the index.
 '''
 
-# Your Code Here
-grouped_sorted_df = None  # Replace this with your solution
+# Your Code Here -----------------------------------------------------------
+
+# Group orders by name and calculate total price and order count
+grouped_sorted_df = merged_df.groupby("name").agg(
+    total_price=("price", "sum"),
+    order_count=("id_y", "count")
+)
+
+# Sort by total price from highest to lowest
+grouped_sorted_df = grouped_sorted_df.sort_values(
+    "total_price", ascending=False
+)
 
 print("Grouped and Sorted DataFrame:")
 print(grouped_sorted_df)
@@ -97,7 +113,7 @@ print(grouped_sorted_df)
 # Alice            1200            2
 # Bob               500            1
 
-# Section 4: DataFrame Indexing
+# Section 4: DataFrame Indexing 
 '''
 Index the grouped_sorted_df DataFrame to get the row with the highest total_price.
 Declare a variable "highest_total_price_user" to store the Series for the user with the highest
@@ -105,8 +121,9 @@ total price from the grouped_sorted_df DataFrame.
 The Series index should be the user's name (i.e., highest_total_price_user.name == "Alice").
 '''
 
-# Your Code Here
-highest_total_price_user = None  # Replace this with your solution
+# Your Code Here -----------------------------------------------------------
+# Get the first row from the sorted DataFrame
+highest_total_price_user = grouped_sorted_df.iloc[0]
 
 print("Highest Total Price User:")
 print(highest_total_price_user)

@@ -20,8 +20,24 @@ by order id: 1, 2, 3). Each record should merge the matching user's name
 into the order dictionary.
 '''
 
-# Your Code Here
-user_orders = None  # Replace this with your solution
+# Your Code Here -------------------------------------------------------------------------------------
+
+# Create an empty list to store the joined records
+user_orders = []
+
+# Find the matching user for each order
+for order in orders:
+    for user in users:
+        if order["user_id"] == user["id"]:
+
+# Copy the original order
+            new_order = order.copy()
+
+# Add the matching user's name
+            new_order["name"] = user["name"]
+
+# Store the combined record
+            user_orders.append(new_order)
 
 print("Section 1: List joining")
 print(user_orders)
@@ -48,8 +64,23 @@ Dict structure:
 }
 '''
 
-# Your Code Here
-grouped = None  # Replace this with your solution
+# Your Code Here ---------------------------------------------------------------
+
+# Create a dictionary to store aggregated results
+grouped = {}
+
+for order in user_orders:
+    name = order["name"]
+
+# Initialize each new customer
+    if name not in grouped:
+        grouped[name] = {
+            "total_price": 0,
+            "order_count": 0
+        }
+# Add the price and count each order
+    grouped[name]["total_price"] += order["price"]
+    grouped[name]["order_count"] += 1
 
 print("Section 2: List Grouping")
 print(grouped)
@@ -64,14 +95,22 @@ Sort the grouped dictionary by "total_price" in descending order
 2. Use the sorted() function to sort by "total_price" in descending order
 '''
 
-# Your Code Here
-sorted_grouped = None  # Replace this with your solution
+# Your Code Here ------------------------------------------------------------------------------------
+
+# Sort customers by total spending from highest to lowest
+sorted_grouped = sorted(
+    grouped.items(),
+    key=lambda item: item[1]["total_price"],
+    reverse=True
+)
 
 print("Section 3: List Sorting")
 print(sorted_grouped)
 
 # Expected Output:
 # [('Alice', {'total_price': 1200, 'order_count': 2}), ('Bob', {'total_price': 500, 'order_count': 1})]
+
+
 
 # Section 4: List Indexing
 '''
@@ -82,8 +121,17 @@ Print the details of the user with the highest total price from the sorted_group
    a dictionary with the keys "name", "total_price", and "order_count"
 '''
 
-# Your Code Here
-highest_total_price_user = None  # Replace this with your solution
+# Your Code Here ------------------------------------------------------------------------------------
+
+# Get the first user from the sorted list
+top_user = sorted_grouped[0]
+
+# Build a dictionary containing the customer's details
+highest_total_price_user = {
+    "name": top_user [0],
+    "total_price": top_user[1] ["total_price"],
+    "order_count": top_user[1]["order_count"]
+}
 
 print("Section 4: List Indexing")
 print(highest_total_price_user)
